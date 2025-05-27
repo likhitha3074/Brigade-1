@@ -251,3 +251,158 @@
   </script>
 </body>
 </html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Course Selection</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f9f9f9; }
+    nav a { margin: 0 10px; text-decoration: none; font-weight: bold; color: #444; }
+    .section { margin-bottom: 30px; }
+    .courses-container { display: flex; flex-wrap: wrap; gap: 20px; }
+    .course-card {
+      background: #fff;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      width: 240px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    }
+    button {
+      margin: 5px 5px 0 0;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .add-btn { background-color: #28a745; color: white; }
+    .add-btn:hover { background-color: #218838; }
+    .delete-btn { background-color: #dc3545; color: white; }
+    .delete-btn:hover { background-color: #c82333; }
+  </style>
+</head>
+<body>
+
+  <h1>Course Selection</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="courses.html">Select Courses</a>
+    <a href="summary.html">Summary</a>
+  </nav>
+
+  <div class="section">
+    <h2>Recommended</h2>
+    <div class="courses-container">
+      <div class="course-card">
+        <h4>Data Structures</h4>
+        <p>Labs/week: 1<br>Classes/week: 3<br>Credits: 4</p>
+        <button class="add-btn" onclick="addCourse(this)">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Open Electives</h2>
+    <div class="courses-container">
+      <div class="course-card">
+        <h4>Psychology 101</h4>
+        <p>Labs/week: 0<br>Classes/week: 2<br>Credits: 2</p>
+        <button class="add-btn" onclick="addCourse(this)">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>My Selections</h2>
+    <div class="courses-container" id="my-selections">
+      <!-- Selected courses go here -->
+    </div>
+  </div>
+
+  <script>
+    function addCourse(btn) {
+      const card = btn.parentElement.cloneNode(true);
+      card.querySelector('.add-btn').remove();
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "Delete";
+      delBtn.className = "delete-btn";
+      delBtn.onclick = () => {
+        card.remove();
+        alert("Course removed!");
+      };
+      card.appendChild(delBtn);
+      document.getElementById("my-selections").appendChild(card);
+      alert("Course added!");
+    }
+  </script>
+</body>
+</html>
+<html>
+<head>
+<title>Restaraunt Menu</title>
+</head>
+
+<body>
+<h1>"WELCOME TO GOURMENT DELIGHTS"</h1>
+<table border="1">
+
+<tr>
+<th>Image</th>
+<th>Dish</th>
+<th>Discription</th>
+<th>Price</th>
+</tr>
+
+<tr>
+<td><img src="chickencurry.jpeg" width="60" height="60"></td>
+<td><b>Chicken Curry</b></td>
+<td><i>Chef's special, marinated in herbs and spices</i></td>
+<td>$50.5</td>
+</tr>
+
+<tr>
+<td><img src="siracha.jpeg" width="60" height="60"></td>
+<td>Sriracha Tofu</td>
+<td><i>cooked to perfection</i></td>
+<td>$35.3</td>
+</tr>
+
+<tr>
+<td><img src="turkeytacos.jpeg" width="60" height="60"></td>
+<td><b>Turkey Tacos</b></td>
+<td><b>Spicy, with a kick of cayenne pepper</b></td>
+<td>$18.99</td>
+</tr>
+</table>
+
+
+<br>
+<h2>Make a reservation</h2>
+<form>
+<label >Name:</label>
+<input type="text">
+<br></br>
+
+<label for="date">Date:</label>
+<input type="date" >
+<br></br>
+
+<label for="time">Time:</label>
+<input type="Time">
+<br></br>
+
+<label for="guests">Guests:</label>
+<select id="guests">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+</select>
+
+<button>Reserve Table</button>
+</form>
+</html>
+</body>
+
+

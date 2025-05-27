@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    .login-container, .dashboard-container {
+      background: white;
+      padding: 20px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #218838;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      background: #e9ecef;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    h3 {
+      margin-top: 25px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <form id="loginForm">
+      <h2>Student Login</h2>
+      <label for="name">Name:</label>
+      <input type="text" id="name" placeholder="Enter your name" />
+
+      <label for="enrollment">Enrollment Number:</label>
+      <input type="text" id="enrollment" placeholder="Enter enrollment number" />
+
+      <label for="batch">Course Batch:</label>
+      <select id="batch">
+        <option value="B1-B4">B1–B4</option>
+        <option value="B5">B5</option>
+        <option value="B6-B7">B6–B7</option>
+        <option value="B8-B11">B8–B11</option>
+      </select>
+
+      <label for="cgpa">CGPA:</label>
+      <input type="text" id="cgpa" placeholder="Enter CGPA" />
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+
+  <div class="dashboard-container" style="display: none;">
+    <h2>Welcome, <span id="studentName">Student</span></h2>
+    <p>Enrollment: <span id="studentEnrollment"></span></p>
+    <p>Batch: <span id="studentBatch"></span></p>
+    <p>CGPA: <span id="studentCGPA"></span></p>
+
+    <h3>📌 Registered Semester 1 Courses</h3>
+    <ul id="courseList"></ul>
+
+    <h3>Total Completed Credits: <span id="totalCredits">0</span></h3>
+
+    <h3>📌 Recommended Semester 2 Courses</h3>
+    <ul id="recommendedCourses"></ul>
+
+    <h3>📌 Recommended Semester 3 Courses</h3>
+    <ul id="sem3Courses"></ul>
+
+    <h3>📌 Discipline Electives</h3>
+    <ul id="disciplineElectives"></ul>
+
+    <h3>📌 Open Electives</h3>
+    <ul id="openElectives"></ul>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const enrollment = document.getElementById("enrollment").value.trim();
+      const batch = document.getElementById("batch").value;
+      const cgpa = document.getElementById("cgpa").value.trim();
+
+      if (!name || !enrollment || !batch || !cgpa) {
+        alert("All fields must be filled out!");
+        return;
+      }
+
+      document.querySelector(".login-container").style.display = "none";
+      document.querySelector(".dashboard-container").style.display = "block";
+
+      document.getElementById("studentName").textContent = name;
+      document.getElementById("studentEnrollment").textContent = enrollment;
+      document.getElementById("studentBatch").textContent = batch;
+      document.getElementById("studentCGPA").textContent = cgpa;
+
+      const registeredCourses = {
+        "B1-B4": [
+          { name: "Programming in Python", credits: 2 },
+          { name: "Linear Algebra & Calculus", credits: 3 },
+          { name: "Basic French", credits: 2 },
+          { name: "Physics of Opto Devices", credits: 3 },
+          { name: "Communicative English", credits: 1 },
+          { name: "Environmental Studies", credits: 0 }
+        ],
+        "B5": [
+          { name: "Intro to Biotechnology", credits: 3 },
+          { name: "Linear Algebra & Calculus", credits: 3 },
+          { name: "Physics of Opto Devices", credits: 3 },
+          { name: "Communicative English", credits: 1 },
+          { name: "Environmental Studies", credits: 0 }
+        ],
+        "B6-B7": [
+          { name: "Programming in Python", credits: 2 },
+          { name: "Linear Algebra & Calculus", credits: 3 },
+          { name: "Communicative English", credits: 1 },
+          { name: "Environmental Studies", credits: 0 },
+          { name: "Understanding Self", credits: 1 },
+          { name: "Communicative Kannada", credits: 0 },
+          { name: "Physics of Opto Devices", credits: 3 }
+        ],
+        "B8-B11": [
+          { name: "Programming in Python", credits: 2 },
+          { name: "Linear Algebra & Calculus", credits: 3 },
+          { name: "Fundamentals of ECE", credits: 3 },
+          { name: "Understanding Self", credits: 1 },
+          { name: "Kannada", credits: 0 },
+          { name: "Tech English Communication", credits: 1 }
+        ]
+      };
+
+      const courseList = document.getElementById("courseList");
+      courseList.innerHTML = "";
+      let totalCredits = 0;
+
+      registeredCourses[batch].forEach(course => {
+        const li = document.createElement("li");
+        li.textContent = ${course.name} - ${course.credits} Credits;
+        courseList.appendChild(li);
+        totalCredits += course.credits;
+      });
+
+      document.getElementById("totalCredits").textContent = totalCredits;
+
+      const recommendedList = [
+        { name: "Web Technology", credits: 3 },
+        { name: "Understanding Self for Effectiveness", credits: 1 },
+        { name: "Source Code Management", credits: 1 },
+        { name: "Programming in C and C++", credits: 4 },
+        { name: "Professional English", credits: 1 },
+        { name: "Physics of Optoelectronic Devices", credits: 3 },
+        { name: "Kannada Kali", credits: 1 },
+        { name: "Fundamentals of Electrical & Electronics Engineering", credits: 3 },
+        { name: "Foundations of Economics", credits: 3 },
+        { name: "Dynamics of Human Behaviour", credits: 1 },
+        { name: "Differential Equations & Transform Techniques", credits: 3 },
+        { name: "Basic Human Nutrition", credits: 2 },
+        { name: "Basic German", credits: 1 },
+        { name: "Basic French", credits: 1 }
+      ];
+
+      const recommendedCourses = document.getElementById("recommendedCourses");
+      recommendedCourses.innerHTML = "";
+      recommendedList.forEach(course => {
+        const li = document.createElement("li");
+        li.textContent = ${course.name} - ${course.credits} Credits;
+        recommendedCourses.appendChild(li);
+      });
+
+      const sem3Courses = document.getElementById("sem3Courses");
+      sem3Courses.innerHTML = "";
+      const sem3List = {
+        "B1-B4": [
+          { name: "CSE2001 Data Structures and Algorithms (3:2)", credits: 4 },
+          { name: "CSE3001 Object Oriented System Design (3:1)", credits: 4 }
+        ],
+        "B5": [
+          { name: "CSE2001 Data Structures and Algorithms (3:2)", credits: 4 },
+          { name: "CSE3001 Object Oriented System Design (3:1)", credits: 4 }
+        ],
+        "B6-B7": [
+          { name: "CSE2001 Data Structures and Algorithms (3:2)", credits: 4 },
+          { name: "CSE3001 Object Oriented System Design (3:1)", credits: 4 }
+        ],
+        "B8-B11": [
+          { name: "CSE2001 Data Structures and Algorithms (3:2)", credits: 4 },
+          { name: "CSE3002 Computer Organization and Architecture (3:1)", credits: 4 }
+        ]
+      };
+      sem3List[batch].forEach(course => {
+        const li = document.createElement("li");
+        li.textContent = ${course.name} - ${course.credits} Credits;
+        sem3Courses.appendChild(li);
+      });
+
+      const disciplineElectives = document.getElementById("disciplineElectives");
+      disciplineElectives.innerHTML = "";
+      const disciplineList = [
+        { name: "CSE4003 Cybersecurity Fundamentals (3:1)", credits: 3 },
+        { name: "CSE4011 Introduction to AI (3:1)", credits: 3 }
+      ];
+      disciplineList.forEach(course => {
+        const li = document.createElement("li");
+        li.textContent = ${course.name} - ${course.credits} Credits;
+        disciplineElectives.appendChild(li);
+      });
+
+      const openElectives = document.getElementById("openElectives");
+      openElectives.innerHTML = "";
+      const openList = [
+        { name: "MGT2001 Design Thinking (2:0)", credits: 2 },
+        { name: "HUM1002 Philosophy of Technology (2:0)", credits: 2 }
+      ];
+      openList.forEach(course => {
+        const li = document.createElement("li");
+        li.textContent = ${course.name} - ${course.credits} Credits;
+        openElectives.appendChild(li);
+      });
+    });
+  </script>
+</body>
+</html>
